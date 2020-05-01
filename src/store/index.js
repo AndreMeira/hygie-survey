@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import AuthState  from '@/store/auth/index';
-import BodyParams from '@/store/body/index';
+import Survey     from '@/store/survey/index';
 
 Vue.use(Vuex)
 
