@@ -24,7 +24,7 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn text color="primary" @click="$router.push({ name: 'healthSurvey'})">
+              <v-btn text color="primary" @click="$router.push({ name: 'resultHealth'})">
                 Commencer le test
               </v-btn>
 
@@ -53,7 +53,7 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn text color="primary" @click="$router.push({ name: 'foodSurvey'})">
+              <v-btn text color="primary" @click="$router.push({ name: 'resultFood'})">
                 Commencer le test
               </v-btn>
             </v-card-actions>
@@ -70,12 +70,6 @@
 export default {
   name: 'Home',
   components: {
-  },
-
-  methods: {
-    navigate(route) {
-
-    }
   }
 }
 </script>

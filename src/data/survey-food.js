@@ -1,4 +1,5 @@
 export default {
+  id:1,
   category: "food",
   categoryTitle: "Tes habitudes alimentaires",
   currentQuestion:0,

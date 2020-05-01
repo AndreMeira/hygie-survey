@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home      from '../views/Home.vue'
+import Result    from '../views/Result.vue'
 import Question  from '../views/Question.vue'
 
 Vue.use(VueRouter)
@@ -17,14 +18,28 @@ Vue.use(VueRouter)
     component: Question
   },
   {
-    path: '/etat-de-sante',
+    path: '/question/etat-de-sante',
     name: 'healthSurvey',
-    component: Question
+    component: Question,
+    props: { category: "health" }
   },
   {
-    path: '/alimentation',
+    path: '/question/alimentation',
     name: 'foodSurvey',
-    component: Question
+    component: Question,
+    props: { category: "health" }
+  },
+  {
+    path: '/resultat/alimentation',
+    name: 'resultFood',
+    component: Result,
+    props: { category: "food" }
+  },
+  {
+    path: '/resultat/etat-de-sante',
+    name: 'resultHealth',
+    component: Result,
+    props: { category: "health" }
   },
   {
     path: '/about',

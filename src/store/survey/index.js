@@ -10,7 +10,8 @@ export default {
    *
    */
   state: {
-    
+    current:null,
+    surveys:[]
   },
 
   /**

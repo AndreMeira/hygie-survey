@@ -1,4 +1,5 @@
 export default {
+  id:2,
   category: "health",
   categoryTitle: "Ton état de santé",
   currentQuestion:0,
@@ -27,7 +28,7 @@ export default {
       previousComment:"",
       answers:[{
         id:4,
-        label:"je ne fumes pas"
+        label:"je ne fume pas"
       },{
         id:5,
         label:"de une à quatre cigarettes par jours"
