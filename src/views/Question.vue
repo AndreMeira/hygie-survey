@@ -109,11 +109,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
+    ...mapGetters([
       "currentSurvey",
       "currentQuestion",
       "currentQuestionNumber"
-    })
+    ])
   },
 
   methods: {
