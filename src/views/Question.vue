@@ -141,7 +141,7 @@ export default {
       this.saveSurvey().then(() => {
         this.$router.push({ name: this.category + 'Result'})
       })
-    }
+    },
 
     previous() {
       this.previousQuestion()
