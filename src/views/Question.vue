@@ -9,7 +9,6 @@
       </v-row>
       <v-row justify="center">
         <v-col col="12" md="10">
-
           <v-row justify="center">
             <v-form v-model="valid" ref="form">
               <v-row>
@@ -27,14 +26,13 @@
                   </v-radio-group>
                 </template>
                 <template v-else>
-                  <template v-for="answers in currentQuestion.answers">
+                  <template v-for="response in currentQuestion.answers">
                     <v-checkbox
-                      :key="answers.id"
+                      :key="response.id"
                       v-model="answers"
-                      :label="answers.label"
+                      :label="response.label"
                     ></v-checkbox><br />
                   </template>
-
                 </template>
               </v-row>
               <v-row>
@@ -62,13 +60,10 @@
                     @click="$router.push({ name: 'CustomPlan'})">Suivant ></v-btn>
                   </v-row>
                 </v-col>
-
               </v-row>
             </v-form>
           </v-row>
         </v-col>
-
-
       </v-row>
     </template>
   </v-container>
@@ -78,12 +73,22 @@ import { mapActions } from 'vuex'
 import HygieTitle from '@/components/Title'
 
 export default {
+
+  /**
+   *
+   */
   props:["category"],
 
+  /**
+   *
+   */
   components: {
     HygieTitle
   },
 
+  /**
+   *
+   */
   beforeMount () {
     if (this.currentSurvey) {
       this.ready = true
@@ -95,6 +100,9 @@ export default {
     })
   },
 
+  /**
+   *
+   */
   data() {
      return {
        ready:false,
@@ -108,6 +116,9 @@ export default {
      }
   },
 
+  /**
+   *
+   */
   computed: {
     ...mapGetters([
       "currentSurvey",
@@ -116,6 +127,9 @@ export default {
     ])
   },
 
+  /**
+   *
+   */
   methods: {
     ...mapActions({
       saveSurvey: "save survey",
@@ -123,12 +137,19 @@ export default {
       nextQuestion:"next question",
       previousQuestion:"previous question",
     }),
+
+    /**
+     *
+     */
     next() {
       this.saveAnswer(this.getPayload()).then(() => {
         this.nextAction()
       })
     },
 
+    /**
+     *
+     */
     nextAction() {
       if (this.isCurrentQuestionLastQuestion()) {
         this.saveSurveyAndGoToResult()
@@ -137,20 +158,32 @@ export default {
       }
     },
 
+    /**
+     *
+     */
     saveSurveyAndGoToResult() {
       this.saveSurvey().then(() => {
         this.$router.push({ name: this.category + 'Result'})
       })
     },
 
+    /**
+     *
+     */
     previous() {
       this.previousQuestion()
     },
 
+    /**
+     *
+     */
     isCurrentQuestionLastQuestion() {
       return this.currentQuestion + 1 === this.currentSurvey.questions.length
     },
 
+    /**
+     *
+     */
     getPayload() {
       return {
         currentQuestion:this.currentQuestion,
