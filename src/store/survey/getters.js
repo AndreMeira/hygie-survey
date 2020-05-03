@@ -6,7 +6,7 @@ export default {
   userHealth(state, getters) {
     return getters.user ? getters.user.results.find((e) => {
       return e.category === "health"
-    })
+    }) : {}
   },
 
   /**
