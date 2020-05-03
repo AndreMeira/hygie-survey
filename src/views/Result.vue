@@ -38,7 +38,7 @@ export default {
       "result"
     ]),
 
-    currentResult: {
+    currentResult() {
       return this.result(this.category)
     }
   },
