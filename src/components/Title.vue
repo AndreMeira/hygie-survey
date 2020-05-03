@@ -4,10 +4,17 @@
       <h3>BILAN DE VITALITE</h3>
     </div>
     <div>
-      <h4>Sur tes habitudes alimentaires</h4>
+      <h4>{{text}}</h4>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Home',
+  props:["text"]
+}
+</script>
 
 <style lang="scss" scoped>
 h3 {

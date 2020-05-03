@@ -29,4 +29,18 @@ export default {
   surveyFood(state) {
     return state.surveys.find(e => e.category === "food")
   },
+
+  currentSurvey(state) {
+    return state.current;
+  },
+
+  currentQuestionNumber(state, getters) {
+    return getters.currentSurvey.currentQuestion
+  },
+
+  currentQuestion(state, getters) {
+    return getters.currentSurvey.questions[
+      getters.currentSurvey.currentQuestion
+    ];
+  },
 }

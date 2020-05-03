@@ -1,14 +1,18 @@
 <template>
   <v-container>
     <div class="result title">
-      <HygieTitle />
+      <HygieTitle :title="currentResult.title"/>
     </div>
-    <div class="result content">
-      {{this.currentResult.text}}
+    <div class="result subtitle">
+      <h5>{{currentResult.subtitle}}</h5>
+    </div>
+    <div class="result content" v-html="currentResult.text | newLineToBr">
     </div>
   </v-container>
 </template>
+
 <script>
+
 import { mapActions } from 'vuex'
 import HygieTitle from '@/components/Title'
 
@@ -36,6 +40,12 @@ export default {
 
     currentResult: {
       return this.result(this.category)
+    }
+  },
+
+  filters: {
+    newLineToBr: function (value) {
+      return (value || "").toString().split(/\r?\n/).join("<br />")
     }
   }
 }

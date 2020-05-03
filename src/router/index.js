@@ -31,23 +31,15 @@ Vue.use(VueRouter)
   },
   {
     path: '/resultat/alimentation',
-    name: 'resultFood',
+    name: 'foodResult',
     component: Result,
     props: { category: "food" }
   },
   {
     path: '/resultat/etat-de-sante',
-    name: 'resultHealth',
+    name: 'healthResult',
     component: Result,
     props: { category: "health" }
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   }
 ]
 
