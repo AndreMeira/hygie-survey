@@ -15,7 +15,7 @@ export default {
   userFood(state, getters) {
     return getters.user ? getters.user.results.find((e) => {
       return e.category === "food"
-    })
+    }) : {}
   },
 
   result: (state) => (category) => {
