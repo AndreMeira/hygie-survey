@@ -13,7 +13,7 @@
 
 <script>
 
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import HygieTitle from '@/components/Title'
 
 export default {
