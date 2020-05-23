@@ -21,13 +21,6 @@ export default {
   /**
    *
    */
-  result: (state) => (category) => {
-    return state.surveys.find(e => e.category === category)
-  },
-
-  /**
-   *
-   */
   surveyHealth(state) {
     return state.surveys.find(e => e.category === "health")
   },
@@ -43,7 +36,7 @@ export default {
    *
    */
   currentSurvey(state) {
-    return state.current;
+    return state.currentSurvey;
   },
 
   /**
@@ -60,5 +53,12 @@ export default {
     return getters.currentSurvey.questions[
       getters.currentSurvey.currentQuestion
     ];
+  },
+
+  /**
+   *
+   */
+  currentResponse(state, getters) {
+    return getters.currentSurvey.response
   },
 }

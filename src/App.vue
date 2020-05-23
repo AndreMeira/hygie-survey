@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Header from './components/Header';
+import Header  from './components/Header';
 import Footer  from '@/components/Footer.vue'
 
 export default {
@@ -18,6 +18,21 @@ export default {
   components: {
     Header,
     Footer
+  },
+
+  mounted () {
+    if (window && window.document) {
+      document.title = "Hygie académie"
+    }
+  },
+
+  created () {
+    this.$store.dispatch("load current user").then(() => {
+      this.ready = true
+    }).catch(() => {
+      this.$router.push({ name:"Login" })
+      this.ready = true
+    })
   },
 
   data: () => ({

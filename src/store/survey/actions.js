@@ -17,23 +17,70 @@ const TOKEN_GENERATOR = (function () {
 
 export default {
 
-  "next question" ({context, state}, params) {
+  /**
+   *
+   */
+  "set question number" ({commit, getters}, number) {
     return new Promise((resolve, reject) => {
-        context.commit("increment question", state.getters.currentSurvey)
+        commit("set question number", number)
+        resolve({})
     });
   },
 
   /**
    *
    */
-  "save survey" (context, params) {
+  "next question" ({commit, getters}, params) {
     return new Promise((resolve, reject) => {
-      resolve(user);
-    })
+        commit("increment question", getters.currentSurvey)
+        resolve({})
+    });
+  },
 
+  /**
+   *
+   */
+  "previous question" ({commit, getters}, params) {
     return new Promise((resolve, reject) => {
-        axios.post(urls.saveSurvey, params).then(({data}) => {
-            context.commit("set current user", data)
+        commit("decrement question", getters.currentSurvey)
+        resolve({})
+    });
+
+  },
+
+  /**
+   *
+   */
+  "save survey" (context, params) {
+
+      return new Promise((resolve, reject) => {
+          axios.post(urls.saveSurvey, params).then(({data}) => {
+              context.commit("add result", data)
+              context.commit("set current result", data)
+              resolve(data)
+          }).catch(e => {
+            console.log(e)
+            reject(e)
+          });
+      });
+  },
+
+  /**
+   *
+   */
+  "save answer" (context, { currentQuestion, answers, comment }) {
+    return new Promise((resolve, reject) => {
+      context.commit("save answer", {
+        question:currentQuestion,
+        answers,
+        comment
+      })
+    });
+  },
+
+  "load previous answers" (context, id) {
+    return new Promise((resolve, reject) => {
+        axios.get(urls.loadPreviousAnswers(id)).then(({data}) => {
             resolve(data)
         }).catch(e => {
           console.log(e)
@@ -45,20 +92,14 @@ export default {
   /**
    *
    */
-  "save answer" (context, { currentQuestion, answers }) {
-    return new Promise((resolve, reject) => {
-      context.commit("save answer", { currentQuestion, answers })
-    });
-  },
+  "load survey as current" (context, {category, page}) {
 
-  /**
-   *
-   */
-  "load survey as current" (context, category) {
-    return new Promise((resolve, reject) => {
-      resolve(category === "food" ? food : health);
-    })
-    
+    // return new Promise((resolve, reject) => {
+    //   context.commit("set current survey", category === "food" ? food : health)
+    //   context.commit("set question number", page ? page - 1 : 0)
+    //   resolve(category === "food" ? food : health);
+    // })
+
     const token = TOKEN_GENERATOR();
 
     return new Promise((resolve, reject) => {

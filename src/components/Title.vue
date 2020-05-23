@@ -18,14 +18,15 @@ export default {
 
 <style lang="scss" scoped>
 h3 {
-  border:solid 1px #efefef;
-  background-color: #fcb69f;
-  padding: 1rem 2rem;
-  border-radius: 2rem;
-  color:white;
+  // border:solid 1px #efefef;
+  // background-color: #fcb69f;
+  // padding: 1rem 2rem;
+  // border-radius: 2rem;
+  // color:white;
+  // box-shadow: 0px 0px 3px #444;
+  
   font-family: "Helvetica neue";
   letter-spacing: .3rem;
-  box-shadow: 0px 0px 3px #444;
   margin-top: 1rem;
 }
 

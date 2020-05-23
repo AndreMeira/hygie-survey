@@ -8,6 +8,8 @@ export default {
       id:1,
       label: "Combien de café bois-tu par jour",
       multiple:false,
+      response:[],
+      comment:"",
       previousAnswer:[],
       previousComment:"",
       answers:[{
@@ -24,6 +26,7 @@ export default {
       id:2,
       label: "Est ce que tu fumes?",
       multiple:true,
+      response:[],
       previousAnswer:[],
       previousComment:"",
       answers:[{

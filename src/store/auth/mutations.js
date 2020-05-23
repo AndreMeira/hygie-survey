@@ -1,5 +1,15 @@
 export default {
 
+  "add result" (state, result) {
+    let results = state.auth.user.results;
+    results.push(result)
+    state.auth.user.results = results
+  },
+
+  "set current result" (state, result) {
+    state.auth.currentResult = result
+  },
+
   /**
    *
    */

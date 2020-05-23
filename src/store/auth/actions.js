@@ -1,5 +1,6 @@
-import urls from '@/config/urls'
+import urls  from '@/config/urls'
 import oauth from '@/config/client'
+
 import axios from 'axios'
 
 export default {
@@ -9,11 +10,12 @@ export default {
   "authenticate user" (context, credentials) {
 
     return new Promise((resolve, reject) => {
-        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('token')
 
         const data = {...credentials, ...oauth}
         axios.post(urls.auth, data).then(({data}) => {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.access_token
+            console.log("authenticate user", data)
 
             context.dispatch("load current user").then(user => {
               window.localStorage.setItem('token', data.access_token);
@@ -34,14 +36,15 @@ export default {
   "load current user" (context) {
     return new Promise((resolve, reject) => {
         if (context.getters.currentUser) {
-            resolve(context.getters.currentUser);
+          resolve(context.getters.currentUser)
         }
 
         axios.get(urls.me).then(({data}) => {
-            context.commit("set current user", data);
-            resolve(data);
+          context.commit("set current user", data);
+
+          resolve(data)
         }).catch((e) => {
-          window.localStorage.removeItem('token');
+          window.localStorage.removeItem('token')
           reject(e)
         });
     });
@@ -49,10 +52,10 @@ export default {
 
   "logout user" (context) {
     return new Promise((resolve, reject) => {
-        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('token')
 
         axios.post(urls.logout).then(({data}) => {
-            context.commit("set current user", {});
+            context.commit("set current user", {})
             resolve(data);
         });
     });

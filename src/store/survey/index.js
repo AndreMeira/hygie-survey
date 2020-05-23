@@ -10,7 +10,7 @@ export default {
    *
    */
   state: {
-    current:null,
+    currentSurvey:null,
     surveys:[]
   },
 

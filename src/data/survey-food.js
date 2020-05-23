@@ -8,6 +8,8 @@ export default {
       id:1,
       label: "Est ce que tu manges du poisson",
       multiple:false,
+      response:[],
+      comment:"",
       previousAnswer:[],
       previousComment:"",
       answers:[{
@@ -23,6 +25,7 @@ export default {
   }, {
       id:2,
       label: "Est ce que tu manges des carottes?",
+      response:[],
       multiple:true,
       previousAnswer:[],
       previousComment:"",

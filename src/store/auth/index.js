@@ -12,7 +12,8 @@ export default {
   state: {
     auth:{
       token:null,
-      user:null
+      user:null,
+      currentResult:null
     }
   },
 
