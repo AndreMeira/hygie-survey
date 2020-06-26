@@ -66,7 +66,8 @@
               class="mx-auto"
               max-width="800">
             <v-card-title>
-              <span class="title font-weight-light">{{currentQuestionNumber + 1}}. {{currentQuestion.label}}</span>
+              <span class="title font-weight-light">{{currentQuestionNumber + 1}}. </span>
+              <span v-html="questionLabel"></span>
             </v-card-title>
             <v-card-text class="headline font-weight-bold">
               <v-form v-model="valid" ref="form">
@@ -188,7 +189,14 @@ export default {
       "currentSurvey",
       "currentQuestion",
       "currentQuestionNumber"
-    ])
+    ]),
+
+    questionLabel() {
+      return this.currentQuestion.label
+          .replace("plusieurs réponses possibles", "<u>plusieurs réponses possibles</u>")
+          .replace("1 à 6 réponses possibles", "<u>1 à 6 réponses possibles</u>")
+          .replace("le plus souvent", "<u>le plus souvent</u>");
+    }
   },
 
   watch: {

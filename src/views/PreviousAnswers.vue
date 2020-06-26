@@ -13,6 +13,7 @@
     >
     <v-card-actions>
       <v-list-item class="grow">
+
         <!-- <v-icon left color="primary">
           mdi-home
         </v-icon>
@@ -30,6 +31,8 @@
     </v-card-actions>
 
     </v-card>
+
+
   <v-card
     color="grey lighten-4"
     flat
@@ -43,33 +46,112 @@
         mdi-resistor
       </v-icon>
       <v-list-item-content>
-        <v-list-item-title>{{currentResult.title}}</v-list-item-title>
+        <v-list-item-title>
+          {{currentResult.title}}
+        </v-list-item-title>
+        <v-list-item-title>
+          <span class="subheading shrink">ton score : {{currentResult.score}}</span>
+        </v-list-item-title>
+
       </v-list-item-content>
-      <v-row align="center" justify="end">
-        <span class="subheading mr-2">ton score : {{currentResult.score}}</span>
-        <span class="mr-1">·</span>
-        <v-icon class="mr-1" color="light-blue accent-4">mdi-download</v-icon>
-        <span class="subheading"><a :href="'https://api.hygie.andremeira.com/api/result/download/'+$route.params.id">
-        télécharger</a></span>
-      </v-row>
+      <!-- <v-row align="center" justify="end">
+        <v-icon left color="grey">
+          mdi-calendar
+        </v-icon>
+        <span class="subheading shrink">{{currentResult.completed_at}}</span>
+      </v-row> -->
     </v-list-item>
   </v-card-actions>
 
   </v-card>
+
     <v-card
       class="mx-auto"
-      max-width="800">
+      max-width="800"
+      tile>
     <v-card-title>
       <v-icon large left color="yellow darken-2">
         mdi-{{smiley[currentResult.result]}}
       </v-icon>
       <span class="title font-weight-light">{{currentResult.result}}</span>
     </v-card-title>
-    <v-card-text class="headline">
-      {{currentResult.conclusion}}
+    <v-card-text class="" v-html="conclusion">
     </v-card-text>
   </v-card>
+
+  <v-card
+    color="grey lighten-4"
+    flat
+    tile
+    class="mx-auto"
+    max-width="800"
+  >
+  <v-card-actions>
+    <v-list-item class="grow">
+      <v-icon left color="grey">
+        mdi-calendar
+      </v-icon>
+      <v-list-item-content>
+        <v-list-item-title> {{currentResult.completed_at}}
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-row align="center" justify="end">
+        <v-icon class="mr-1" color="light-blue accent-4">mdi-download</v-icon>
+        <span class="subheading shrink"><a :href="'https://api.hygie.andremeira.com/api/result/download/'+$route.params.id">
+        télécharger</a></span>
+      </v-row>
+    </v-list-item>
+  </v-card-actions>
+
+  </v-card>
+
+
 </v-col>
+</v-row>
+<v-row dense style="height:40px;">
+</v-row>
+
+<!-- <v-row dense v-if="plot.length > 1">
+  <v-col cols="12">
+  <v-card
+  class="mt-4 mx-auto"
+  max-width="800"
+>
+  <v-sheet
+    class="v-sheet--offset mx-auto"
+    color="#f14156"
+    elevation="12"
+    max-width="calc(100% - 32px)"
+  >
+    <v-sparkline
+      :labels="plot.map(e => e.date)"
+      :value="plot.map(e => e.score)"
+      color="white"
+      line-width="1"
+      padding="16"
+    ></v-sparkline>
+  </v-sheet>
+
+  <v-card-text class="pt-0">
+    <div class="title font-weight-light mb-2">Evolution de ton score</div>
+  </v-card-text>
+</v-card>
+</v-col>
+</v-row>
+
+<v-row dense style="height:40px;" /> -->
+
+<v-row dense>
+  <v-col cols="12">
+    <v-card
+      class="mx-auto"
+      max-width="800">
+
+    <v-card-text class="headline">
+      Les réponses que tu as données
+    </v-card-text>
+  </v-card>
+  </v-col>
 </v-row>
 
   <template v-for="(question, index) in questions">
@@ -112,7 +194,7 @@ export default {
   /**
    *
    */
-  props:["id", "category"],
+  props:["id"],
 
   /**
    *
@@ -141,6 +223,20 @@ export default {
      }
   },
 
+  computed: {
+    ...mapGetters([
+      "scores"
+    ]),
+
+    plot() {
+      return this.scores(this.category).slice(-5)
+    },
+
+    conclusion() {
+      return this.currentResult.conclusion
+          .replace(/\r?\n/g, "<br />");
+    }
+  },
 
   /**
    *
@@ -163,22 +259,21 @@ export default {
 
     load(id) {
       this.loadPreviousAnswers(id).then((data) => {
+        this.category = data.category
         this.currentResult = data
         this.questions = data.questions
       })
     }
-  },
-
-  /**
-   *
-   */
-  computed: {
-
   }
 }
 
 </script>
 <style lang="scss">
+
+.v-sheet--offset {
+    top: -35px;
+    position: relative;
+  }
 .divider {
   padding-bottom: 5rem;
 }

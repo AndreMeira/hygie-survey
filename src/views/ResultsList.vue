@@ -1,8 +1,32 @@
 <template>
   <v-container>
     <div class="divider"/>
+    <v-card
+      color="grey lighten-4"
+      flat
+      tile
+      class="mx-auto"
+      max-width="800"
+    >
+    <v-card-actions>
+      <v-list-item class="grow">
+        <v-icon left color="#D20F26">
+          mdi-resistor
+        </v-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{list[0].title}}
+          </v-list-item-title>
+        </v-list-item-content>
+        <!-- <v-row align="center" justify="end">
+          <span class="subheading shrink">ton score : {{currentResult.score}}</span>
+        </v-row> -->
+      </v-list-item>
+    </v-card-actions>
+
+    </v-card>
   <v-card
-    max-width="500"
+    max-width="800"
     class="mx-auto"
   >
 
@@ -12,10 +36,10 @@
         active-class="pink--text"
       >
         <template v-for="(item, index) in list">
-          <v-list-item :key="item.id">
+          <v-list-item :key="item.id" @click="$router.push({ name: 'PreviousAnswers', params:{id: item.id} })">
             <template v-slot:default="{ active, toggle }">
               <v-list-item-content>
-                <v-list-item-title>{{item.title}}: {{item.score}} points</v-list-item-title>
+                <v-list-item-title>Ton score: {{item.score}} points</v-list-item-title>
                 <v-list-item-subtitle class="text--primary" >{{item.subtitle}}</v-list-item-subtitle>
                 <v-list-item-subtitle v-text="item.completed_at"></v-list-item-subtitle>
               </v-list-item-content>
@@ -54,13 +78,7 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      loadPreviousAnswers: "load previous answers"
-    }),
 
-    load(id) {
-      this.loadPreviousAnswers(id).then(data => console.log(data))
-    }
   },
 
   computed:{

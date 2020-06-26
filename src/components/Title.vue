@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h3>BILAN DE VITALITE</h3>
+      <h3>BILAN DE VITALITÉ</h3>
     </div>
     <div>
       <h4>{{text}}</h4>
@@ -24,7 +24,7 @@ h3 {
   // border-radius: 2rem;
   // color:white;
   // box-shadow: 0px 0px 3px #444;
-  
+
   font-family: "Helvetica neue";
   letter-spacing: .3rem;
   margin-top: 1rem;

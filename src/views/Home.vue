@@ -1,13 +1,13 @@
 <template>
-  <v-container-fluid>
+  <v-container fluid>
     <v-row>
       <div class="divider" />
     </v-row>
     <v-row justify="center">
       <HygieTitle title="" />
     </v-row>
-    <v-row justify="center">
-      <v-col cols="4">
+    <v-row justify="center" v-if="$store.getters.allResults">
+      <v-col cols="12" md="4" sm="12">
           <v-card max-width="500" class="mx-auto">
             <v-img
               max-width="500"
@@ -20,19 +20,21 @@
             </v-img>
 
             <v-card-actions>
-              <v-btn text color="primary" @click="$router.push({ name: 'healthSurvey', params: {page: 1} })">
+              <v-btn text color="#f14156" @click="$router.push({ name: 'healthSurvey', params: {page: 1} })">
                 Commencer le test
               </v-btn>
+              <v-spacer></v-spacer>
               <v-btn v-if="$store.getters.results('health').length" text @click="$router.push({ name: 'resultList', params: {cat: 'health'}})">
-                résultats précédents
+                Mes résultats
               </v-btn>
 
             </v-card-actions>
           </v-card>
         </v-col>
-        <v-col cols="4">
 
-          <v-card v-card max-width="500" class="mx-auto">
+        <v-col cols="12" md="4" sm="12">
+
+          <v-card max-width="500" class="mx-auto">
             <v-img
               max-width="500"
               :src="require('@/assets/food.jpg')"
@@ -44,17 +46,18 @@
             </v-img>
 
             <v-card-actions>
-              <v-btn text color="primary" @click="$router.push({ name: 'foodSurvey', params: {page: 1}})">
+              <v-btn text color="#f14156" @click="$router.push({ name: 'foodSurvey', params: {page: 1}})">
                 Commencer le test
               </v-btn>
+              <v-spacer></v-spacer>
               <v-btn v-if="$store.getters.results('food').length" text @click="$router.push({ name: 'resultList', params: {cat: 'food'}})">
-                résultats précédents
+                Mes résultats
               </v-btn>
             </v-card-actions>
           </v-card>
       </v-col>
     </v-row>
-  </v-container-fluid>
+  </v-container>
 </template>
 
 <script>

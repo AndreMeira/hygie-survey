@@ -89,9 +89,10 @@ router.beforeEach((to, from, next) => {
   const token = window.localStorage.getItem('token')
   if (!['Login', 'Signup'].includes(to.name) && !token) {
       next({ name: 'Login' })
-      console.log("route", to.name)
+      console.log("not logged caught router", to.name)
   } else if (['Login', 'Signup'].includes(to.name) && token) {
     next({ name: 'Home' })
+    console.log("route logged caught router", to.name)
   } else {
     next()
   }
