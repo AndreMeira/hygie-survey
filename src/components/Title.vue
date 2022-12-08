@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h3>BILAN DE VITALITÉ</h3>
+      <h3>Quel est ton profil ?</h3>
     </div>
     <div>
       <h4>{{text}}</h4>

@@ -30,7 +30,7 @@
           <v-list-item>
             <v-list-item-title>
               <v-btn @click="logout" flat color="white">
-                se déconnecter
+                page principale
                 <v-icon right>mdi-logout</v-icon>
               </v-btn>
             </v-list-item-title>

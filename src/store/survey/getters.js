@@ -61,4 +61,25 @@ export default {
   currentResponse(state, getters) {
     return getters.currentSurvey.response
   },
+
+  currentNaturoProfile(state, getters) {
+    const result = {
+      "VITA": state.type.filter(e => e === "A").length,
+      "SANA": state.type.filter(e => e === "B").length,
+      "NOVA": state.type.filter(e => e === "C").length,
+      "LUNA": state.type.filter(e => e === "D").length,
+    }
+
+    return ["VITA", "SANA", "NOVA", "LUNA"].sort((a, b) => {
+      return result[a] > result[b]  ? -1 : 1
+    })
+  },
+
+  primaryProfile(state, getters) {
+    return getters.currentNaturoProfile[0]
+  },
+
+  secondaryProfile(state, getters) {
+    return getters.currentNaturoProfile[1]
+  }
 }

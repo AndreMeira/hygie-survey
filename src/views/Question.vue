@@ -17,7 +17,7 @@
                   mdi-resistor
                 </v-icon>
                 <v-list-item-content>
-                  <v-list-item-title>{{category === "food" ? "Tes habitudes alimentaires" : "Ton état de santé"}}</v-list-item-title>
+                  <v-list-item-title>Ton profil</v-list-item-title>
                 </v-list-item-content>
                 <v-row align="center" justify="end">
                   <span class="subheading mr-2">question {{currentQuestionNumber + 1}}/{{currentSurvey.questions.length}}</span>
@@ -104,12 +104,7 @@
                 </template>
               </template>
               </v-form>
-              <v-textarea
-                outlined
-                v-model="comment"
-                name="comment"
-                label="Notes personnelles"
-              ></v-textarea>
+              
             </v-card-text>
 
             <!-- <v-card-actions>
@@ -126,6 +121,52 @@
           </v-col>
 
       </v-row>
+      <v-row justify="center">
+
+    <v-dialog
+      v-model="dialog"
+      max-width="600"
+    >
+      <v-card>
+        <v-card-title class="headline" v-if="currentQuestionNumber < 8">
+          Première évaluation
+        </v-card-title>
+        <v-card-title class="headline" v-else>
+          Résultat final
+        </v-card-title>
+
+        <v-card-text v-if="currentQuestionNumber < 8">
+          D’après tes réponses sur tes caractéristiques physiques, ton profil dominant est <strong>{{primaryProfile}} </strong><br/>
+          Poursuis le test pour connaître ton résultat final
+        </v-card-text>
+        <v-card-text v-else>
+          Ton profil dominant est <strong>{{primaryProfile}} </strong>, ton profil secondaire est <strong>{{secondaryProfile}} </strong><br />
+          Réfère-toi au support de cours pour connaître les indications spécifiques à ton profil ! 
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn v-if="currentQuestionNumber < 8"
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Continuer
+          </v-btn>
+
+          <v-btn
+            v-else
+            color="green darken-1"
+            text
+            @click="goToResult"
+          >
+            Terminer
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
 
     </template>
   </v-container>
@@ -157,6 +198,7 @@ export default {
     this.loadSurveyAsCurrent({
       category:this.category, page:this.$route.params.page || 1
     }).then(() => {
+      this.resetAnswers()
       this.$watch("currentQuestion", a)
       this.ready = true
       a(this.currentQuestion)
@@ -168,6 +210,7 @@ export default {
    */
   data() {
      return {
+       dialog:false,
        valid:true,
        ready:false,
        answer:null,
@@ -188,7 +231,9 @@ export default {
     ...mapGetters([
       "currentSurvey",
       "currentQuestion",
-      "currentQuestionNumber"
+      "currentQuestionNumber",
+      "primaryProfile",
+      "secondaryProfile",
     ]),
 
     questionLabel() {
@@ -202,6 +247,10 @@ export default {
   watch: {
     answer(value) {
       this.answers = [this.answer]
+      console.log("watch", value, this.answers);
+    },
+    answers(value) {
+      console.log("watch", value, this.answers);
     }
   },
 
@@ -210,6 +259,7 @@ export default {
    */
   methods: {
     ...mapActions({
+      resetAnswers: "reset answers",
       saveSurvey: "save survey",
       saveAnswer:"save answer",
       nextQuestion:"next question",
@@ -234,7 +284,7 @@ export default {
       this.saveAnswer(this.getPayload())
 
       if (this.isCurrentQuestionLastQuestion()) {
-        this.saveSurveyAndGoToResult()
+        this.goToResult()
       } else {
         this.next()
       }
@@ -253,23 +303,19 @@ export default {
       this.nextQuestion().then(() => {
         this.reset()
         this.$refs.form.resetValidation()
-        this.$router.push({
-          name:this.category + "Survey",
-          params: { page: this.currentQuestionNumber + 1 }
-        })
+        this.currentQuestionNumber === 7 && this.showResult()
       })
+    },
+
+    showResult() {
+      this.dialog = true
     },
 
     /**
      *
      */
-    saveSurveyAndGoToResult() {
-      this.saveSurvey(this.currentSurvey).then((data) => {
-        console.log(data)
-        this.$router.push({
-          name: this.category + 'Result', params:{ id:data.id }
-        })
-      })
+    goToResult() {
+      this.$router.push({name: 'Result'})
     },
 
     /**
@@ -277,11 +323,6 @@ export default {
      */
     previousAction() {
       this.previousQuestion().then(e => this.reset())
-      this.$router.push({
-        name:this.category + "Survey",
-        params: { page: this.currentQuestionNumber + 1 }
-      })
-
     },
 
     /**

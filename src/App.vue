@@ -22,7 +22,7 @@ export default {
 
   mounted () {
     if (window && window.document) {
-      document.title = "Hygie académie- bilan de vitalité"
+      document.title = "Hygie académie - profil"
     }
   },
 

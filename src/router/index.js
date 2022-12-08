@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home      from '../views/Home.vue'
-import Result    from '../views/Result.vue'
+import Result    from '../views/ProfileResult.vue'
 import List      from '../views/ResultsList.vue'
 import Question  from '../views/Question.vue'
 import Login     from '../views/Login.vue'
 import Signup    from '../views/Signup.vue'
 import PreviousAnswers from '../views/PreviousAnswers.vue'
+import axios from 'axios'
 
 Vue.use(VueRouter)
 
@@ -17,55 +18,29 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/question',
-    name: 'Question',
+    path: '/token/:token',
+    redirect: to => {
+      const { hash, params, query } = to
+      const token = params.token
+      window.localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+      return {name: "Home"}
+    }
+  },
+  {
+    path: '',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/resultat',
+    name: 'Result',
+    component: Result
+  },
+  {
+    path: '/question/profil',
+    name: 'survey',
     component: Question
-  },
-  {
-    path: '/question/etat-de-sante',
-    name: 'healthSurveySimple',
-    component: Question,
-    props: { category: "health" }
-  },
-  {
-    path: '/question/etat-de-sante/:page',
-    name: 'healthSurvey',
-    component: Question,
-    props: { category: "health" }
-  },
-  {
-    path: '/question/alimentation',
-    name: 'foodSurveySimple',
-    component: Question,
-    props: { category: "food" }
-  },
-  {
-    path: '/question/alimentation/:page',
-    name: 'foodSurvey',
-    component: Question,
-    props: { category: "food" }
-  },
-  {
-    path: '/resultat/alimentation/:id',
-    name: 'foodResult',
-    component: PreviousAnswers,
-    props: { category: "food" }
-  },
-  {
-    path: '/resultat/etat-de-sante/:id',
-    name: 'healthResult',
-    component: PreviousAnswers,
-    props: { category: "health" }
-  },
-  {
-    path: '/resultats/:cat',
-    name: 'resultList',
-    component: List
-  },
-  {
-    path: '/response-precedente/:id',
-    name: 'PreviousAnswers',
-    component: PreviousAnswers
   },
   {
     path: '/login',
@@ -87,9 +62,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const token = window.localStorage.getItem('token')
-  if (!['Login', 'Signup'].includes(to.name) && !token) {
-      next({ name: 'Login' })
-      console.log("not logged caught router", to.name)
+
+  if (['token'].includes(to.name)) {
+    next()
+  } else if (!token) {
+      window.location.href = "https://login.hygieacademie.com/login"
+      // next({ name: 'Login' })
+      // console.log("not logged caught router", to.name)
   } else if (['Login', 'Signup'].includes(to.name) && token) {
     next({ name: 'Home' })
     console.log("route logged caught router", to.name)
